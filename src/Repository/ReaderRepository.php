@@ -6,21 +6,21 @@ namespace BookReviews\Repository;
  * Class ReaderRepository
  * @package BookReview\Repository
  */
-class ReaderRepository extends DataBaseConnection
+class ReaderRepository extends DatabaseConnection
 {
     /**
      * @param $username
      * @param $password
      */
-    public function insertIntoDb($username, $password)
+    public function insertIntoDatabase($username, $password)
     {
          die();
     }
     /**
-     * @param $username
-     * @param $password
+     * @param string $username
+     * @param  string $password
      */
-    public function findInDb($username, $password)
+    public function findInDatabase($username, $password)
     {
         die();
     }

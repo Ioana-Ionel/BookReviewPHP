@@ -16,9 +16,7 @@ class ReaderController
      */
     public function login($username, $password)
     {
-
         $reader = new ReaderRepository();
-        $reader->findInDb($username, $password);
+        $reader->findInDatabase($username, $password);
     }
 }
-

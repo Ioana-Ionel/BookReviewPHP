@@ -8,9 +8,24 @@ namespace BookReviews\Entity;
  */
 class Reader
 {
+    /**
+     * @var int
+     */
     protected $id;
+
+    /**
+     * @var string
+     */
     protected $username;
+
+    /**
+     * @var string
+     */
     protected $password;
+
+    /**
+     * @var string
+     */
     protected $salt;
 
     /**
@@ -20,6 +35,7 @@ class Reader
      */
     public function __construct()
     {
+        //TODO change to generate unique id
         $this->id = rand(100, 100000);
     }
 

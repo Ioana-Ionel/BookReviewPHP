@@ -8,36 +8,39 @@
 
 include "../vendor/autoload.php";
 
-$request_uri = explode('?', $_SERVER['REQUEST_URI'], 2);
+$request_uri = $_SERVER["REQUEST_URI"];
+$path = parse_url($request_uri, PHP_URL_PATH);
 
-function redirect($url) {
+/**
+ * @param $url
+ */
+function redirect($url)
+{
     ob_start();
     header('Location: '.$url);
     ob_end_flush();
 }
 
-
-switch ($request_uri[0]) {
-
+switch ($path) {
     case '/':
-
         redirect('/login');
+        break;
 
     case '/login':
         if ($_SERVER['REQUEST_METHOD']==='GET') {
             require 'html/login.html';
-        }
-        elseif ($_SERVER['REQUEST_METHOD']==='POST'){
+        } elseif ($_SERVER['REQUEST_METHOD']==='POST') {
             $username = $_POST['username'];
             $password = $_POST['password'];
 
-            echo $username.' '.$password;
+            echo sprintf("%s %s", $username, $password);
         }
         break;
 
 
     case '/home':
         require 'html/home.html';
+        break;
 
     default:
         header('HTTP/1.0 404 Not Found');

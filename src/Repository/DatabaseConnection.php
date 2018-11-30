@@ -3,12 +3,13 @@
 namespace BookReviews\Repository;
 
 use \PDO;
+
 /**
- * Class DataBaseConnection
+ * Class DatabaseConnection
  * @package BookReviews\Repository
  */
 
-abstract class DataBaseConnection
+abstract class DatabaseConnection
 {
     private $servername = "127.0.0.1";
     private $username = "root";

@@ -1,3 +1,2 @@
 <?php
-echo "oh no"
-?>
+echo "oh no";
