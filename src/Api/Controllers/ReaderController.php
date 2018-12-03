@@ -11,12 +11,28 @@ use BookReviews\Repository\ReaderRepository;
 class ReaderController
 {
     /**
-     * @param string $username
-     * @param string $password
+     * The function returns true if the reader is in the database
+     * @param  string  $username
+     * @param  string  $password
+     * @return boolean
      */
     public function login($username, $password)
     {
         $reader = new ReaderRepository();
-        $reader->findInDatabase($username, $password);
+        return $reader->findInDatabase($username, $password);
+    }
+
+    /**
+     * If the usernma is not unique the function will return false
+     * @param  string  $username
+     * @param  string  $password
+     * @return boolean
+     */
+    public function signIn($username, $password)
+    {
+        $reader = new ReaderRepository();
+        if ($reader->addToDatabase($username, $password) == false) {
+            return false;
+        }
     }
 }
