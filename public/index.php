@@ -12,7 +12,7 @@ $request_uri = $_SERVER["REQUEST_URI"];
 $path = parse_url($request_uri, PHP_URL_PATH);
 
 /**
- * @param $url
+ * @param string $url
  */
 function redirect($url)
 {
@@ -32,7 +32,6 @@ switch ($path) {
         } elseif ($_SERVER['REQUEST_METHOD']==='POST') {
             $username = $_POST['username'];
             $password = $_POST['password'];
-
             echo sprintf("%s %s", $username, $password);
         }
         break;

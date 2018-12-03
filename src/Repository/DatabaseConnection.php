@@ -3,24 +3,33 @@
 namespace BookReviews\Repository;
 
 use \PDO;
+use \PDOException;
 
 /**
  * Class DatabaseConnection
  * @package BookReviews\Repository
  */
-
 abstract class DatabaseConnection
 {
-    private $servername = "127.0.0.1";
+    /**
+     * @var string
+     */
     private $username = "root";
+
+    /**
+     * @var string
+     */
     private $password = "";
 
-    public function __construct()
+    /**
+     * @return PDO
+     */
+    public function databaseConnection()
     {
         try {
-            $dbh = new PDO('mysql:host=127.0.0.1;dbname=BookReviews', $this->username, $this->password);
-        }
-        catch (PDOException $e) {
+            $conn = new PDO('mysql:host=127.0.0.1;dbname=BookReviews', $this->username, $this->password);
+            return $conn;
+        } catch (PDOException $e) {
             echo "Error!: " . $e->getMessage() . "<br/>";
         }
     }

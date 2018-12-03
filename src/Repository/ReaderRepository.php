@@ -9,16 +9,16 @@ namespace BookReviews\Repository;
 class ReaderRepository extends DatabaseConnection
 {
     /**
-     * @param $username
-     * @param $password
+     * @param string $username
+     * @param string $password
      */
     public function insertIntoDatabase($username, $password)
     {
          die();
     }
     /**
-     * @param string $username
-     * @param  string $password
+     * @param  string  $username
+     * @param  string  $password
      */
     public function findInDatabase($username, $password)
     {
