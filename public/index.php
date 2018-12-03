@@ -36,7 +36,6 @@ switch ($path) {
         }
         break;
 
-
     case '/home':
         require 'html/home.html';
         break;

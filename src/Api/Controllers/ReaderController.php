@@ -11,8 +11,8 @@ use BookReviews\Repository\ReaderRepository;
 class ReaderController
 {
     /**
-     * @param string  $username
-     * @param string  $password
+     * @param string $username
+     * @param string $password
      */
     public function login($username, $password)
     {
