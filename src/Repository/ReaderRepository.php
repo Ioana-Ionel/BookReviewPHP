@@ -1,19 +1,27 @@
 <?php
+
+namespace BookReviews\Repository;
+
 /**
- * Created by PhpStorm.
- * User: ioana
- * Date: 11/28/2018
- * Time: 10:04 AM
+ * Class ReaderRepository
+ * @package BookReview\Repository
  */
-include("DataBaseConnection.php");
-
-
-class ReaderRepository extends DataBaseConnection
+class ReaderRepository extends DatabaseConnection
 {
-     function InsertIntoDb($username, $password)
+    /**
+     * @param string $username
+     * @param string $password
+     */
+    public function insertIntoDatabase($username, $password)
     {
-
+         die();
+    }
+    /**
+     * @param string $username
+     * @param string $password
+     */
+    public function findInDatabase($username, $password)
+    {
+        die();
     }
 }
-
-$reader = new ReaderRepository();

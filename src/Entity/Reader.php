@@ -1,27 +1,50 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: ioana
- * Date: 11/27/2018
- * Time: 4:10 PM
- */
 
+namespace BookReviews\Entity;
+
+/**
+ * Class Reader
+ * @package BookReviews\Entity
+ */
 class Reader
 {
-    protected  $id;
+    /**
+     * @var int
+     */
+    protected $id;
+
+    /**
+     * @var string
+     */
     protected $username;
+
+    /**
+     * @var string
+     */
     protected $password;
+
+    /**
+     * @var string
+     */
     protected $salt;
 
-
-    function __construct()
+    /**
+     * This function sets a random id for the user
+     *
+     * Reader constructor.
+     */
+    public function __construct()
     {
-        # this function sets a random id for a user
+        //TODO change to generate unique id
         $this->id = rand(100, 100000);
-
     }
 
-    function getId()
+    /**
+     * The function returns the id of a reader
+     *
+     * @return int $id
+     */
+    public function getId()
     {
         return $this->id;
     }

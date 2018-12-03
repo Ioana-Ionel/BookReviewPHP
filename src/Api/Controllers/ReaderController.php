@@ -1,20 +1,22 @@
 <?php
+
+namespace BookReviews\Api\Controllers;
+
+use BookReviews\Repository\ReaderRepository;
+
 /**
- * Created by PhpStorm.
- * User: ioana
- * Date: 11/27/2018
- * Time: 4:06 PM
+ * Class ReaderController
+ * @package BookReviews\Api\Controllers
  */
-include("../src/Repository/ReaderRepository.php");
 class ReaderController
 {
-
-    function login($username, $password){
-
-        $username=$_POST("username");
-        $password=$_POST("password");
+    /**
+     * @param string $username
+     * @param string $password
+     */
+    public function login($username, $password)
+    {
         $reader = new ReaderRepository();
-        $reader->InsertIntoDB($username, $password);
+        $reader->findInDatabase($username, $password);
     }
 }
-

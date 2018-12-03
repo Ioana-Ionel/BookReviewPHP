@@ -1,0 +1,19 @@
+{
+
+  "name": "ioana/BookReview",
+  "description": "BookReview requirements",
+  "autoload": {
+    "psr-4": {
+      "BookReviews\\": "src"
+    }
+  },
+
+  "require-dev": {
+    "squizlabs/php_codesniffer": "1.*"
+  },
+
+  "require":
+  {
+    "ext-pdo": "*"
+  }
+}
