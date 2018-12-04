@@ -51,6 +51,14 @@ switch ($path) {
         }
         break;
 
+    case '/signUp':
+        if ($_SERVER['REQUEST_METHOD']==='GET') {
+            require 'html/signUp.html';
+        } elseif ($_SERVER['REQUEST_METHOD']==='POST') {
+            die();
+        }
+        break;
+
     case '/home':
         if ($_SERVER['REQUEST_METHOD']==='GET') {
             var_dump($_SESSION['user']);

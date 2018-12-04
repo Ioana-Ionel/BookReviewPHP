@@ -9,7 +9,7 @@ use \PDOException;
  * Class DatabaseConnection
  * @package BookReviews\Repository
  */
-abstract class DatabaseConnection
+class DatabaseConnection
 {
     /**
      * @var string
@@ -29,6 +29,7 @@ abstract class DatabaseConnection
     {
         try {
             $conn = new PDO('mysql:host=127.0.0.1;dbname=BookReviews', $this->username, $this->password);
+
             return $conn;
         } catch (PDOException $e) {
             echo "Error!: " . $e->getMessage() . "<br/>";
