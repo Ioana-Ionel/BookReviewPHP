@@ -2,22 +2,23 @@
 
 namespace BookReviews\Repository;
 
+use \PDO;
+
 /**
  * Class ReaderRepository
  * @package BookReview\Repository
  */
 class ReaderRepository implements Repository
 {
-    private $conn = null;
+    /**
+     * @var PDO
+     */
+    private $conn;
 
-    private function connectToDatabase()
+    public function __construct()
     {
-        try {
-            $conn = new PDO('mysql:host=127.0.0.1;dbname=BookReviews', $this->username, $this->password);
-            return $conn;
-        } catch (PDOException $e) {
-            echo "Error!: " . $e->getMessage() . "<br/>";
-        }
+        $database = new DatabaseConnectionBuilder();
+        $this->conn = $database->connectToDatabase();
     }
 
     public function getId()
@@ -28,7 +29,6 @@ class ReaderRepository implements Repository
     public function add()
     {
         // TODO: Implement add() method.
-
     }
 
     public function update()
@@ -50,7 +50,9 @@ class ReaderRepository implements Repository
     public function findInDatabase($username, $password)
     {
         $query = "Select * from readers where username= \"{$username}\"";
-        $result = $this->selectFromDatabase($query);
+        $stmt= $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_BOTH);
         if (sizeof($result)!= 0 && $result[0][2] == $password) {
             return true;
         } else {
@@ -64,15 +66,23 @@ class ReaderRepository implements Repository
      * @param  string $password
      * @return boolean
      */
+
     public function addToDatabase($username, $password)
     {
         //TODO generate a hash for the password
         //TODO salt in repository
-        $uniqueReader = "Select * from readers where username= \"{$username}\"";
-        if (sizeof($uniqueReader)== 0) {
+        $uniqueUsername = "Select * from readers where username= \"{$username}\"";
+        $stmt= $this->conn->prepare($uniqueUsername);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_BOTH);
+        if (sizeof($result)!= 0) {
             return false;
         }
-        $query = ("Insert into table readers values(id=id, username = username, password = password, salt =salt)");
-        $this->insertIntoDatabase($query);
+        $uniqueUsername = ("Insert into table readers values(id=id,
+                                 username = \"{$username}\",
+                                 password = \"{$password}\",
+                                 salt =salt)");
+        $stmt= $this->conn->prepare($uniqueUsername);
+        $stmt->execute();
     }
 }

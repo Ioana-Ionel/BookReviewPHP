@@ -55,7 +55,20 @@ switch ($path) {
         if ($_SERVER['REQUEST_METHOD']==='GET') {
             require 'html/signUp.html';
         } elseif ($_SERVER['REQUEST_METHOD']==='POST') {
-            die();
+            $username = $_POST["username"];
+            $password = $_POST["password"];
+            $password2 = $_POST['password2'];
+            if ($password != $password2) {
+                require 'html/signUP.html';
+            }
+            $reader= new ReaderController();
+            $reader->signUp($username, $password);
+            if (isset($_SESSION['user'])) {
+                echo "Somebody else was logged in";
+            }
+            $_SESSION['user'] = $username;
+            var_dump($_SESSION['user']);
+            redirect('/home');
         }
         break;
 

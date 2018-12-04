@@ -23,12 +23,12 @@ class ReaderController
     }
 
     /**
-     * If the usernma is not unique the function will return false
+     * If the username is not unique the function will return false
      * @param  string  $username
      * @param  string  $password
      * @return boolean
      */
-    public function signIn($username, $password)
+    public function signUp($username, $password)
     {
         $reader = new ReaderRepository();
         if ($reader->addToDatabase($username, $password) == false) {

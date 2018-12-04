@@ -6,41 +6,33 @@ use \PDO;
 use \PDOException;
 
 /**
- * Class DatabaseConnection
+ * Class DatabaseConnectionBuilder
  * @package BookReviews\Repository
  */
-class DatabaseConnection
+class DatabaseConnectionBuilder
 {
     /**
-     * @var string
-     */
-    private $username = "root";
-
-    /**
-     * @var string
-     */
-    private $password = "";
-
-    /**
-     * The function returns the connection to the database
      * @return PDO
      */
     public function connectToDatabase()
     {
         try {
-            $conn = new PDO('mysql:host=127.0.0.1;dbname=BookReviews', $this->username, $this->password);
+            $database = new PDO(
+                'mysql:host=127.0.0.1;dbname=BookReviews',
+                'root',
+                ''
+            );
 
-            return $conn;
+            return $database;
         } catch (PDOException $e) {
             echo "Error!: " . $e->getMessage() . "<br/>";
         }
     }
-
-    /**
+}
+    /*
      * The function returns an array if the query is true
      * @param  string  $query
      * @return array
-     */
     public function selectFromDatabase($query)
     {
         $conn= $this->connectToDatabase();
@@ -52,10 +44,10 @@ class DatabaseConnection
     /**
      * @param string $query
      */
-    public function insertIntoDatabase($query)
+    /*public function insertIntoDatabase($query)
     {
         $conn= $this->connectToDatabase();
         $stmt= $conn->prepare($query);
         $stmt->execute();
     }
-}
+}*/

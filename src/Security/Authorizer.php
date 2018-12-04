@@ -8,12 +8,10 @@
 
 namespace BookReviews\Security;
 
-
 class Authorizer
 {
     public function isAuthorized()
     {
         //TODO check if the user has access  to current request
-
     }
 }
