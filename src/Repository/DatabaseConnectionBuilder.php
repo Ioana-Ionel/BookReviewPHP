@@ -14,7 +14,7 @@ class DatabaseConnectionBuilder
     /**
      * @return PDO
      */
-    public function connectToDatabase()
+    public function buildConnection()
     {
         try {
             $database = new PDO(
@@ -29,25 +29,4 @@ class DatabaseConnectionBuilder
         }
     }
 }
-    /*
-     * The function returns an array if the query is true
-     * @param  string  $query
-     * @return array
-    public function selectFromDatabase($query)
-    {
-        $conn= $this->connectToDatabase();
-        $stmt= $conn->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_BOTH);
-    }
 
-    /**
-     * @param string $query
-     */
-    /*public function insertIntoDatabase($query)
-    {
-        $conn= $this->connectToDatabase();
-        $stmt= $conn->prepare($query);
-        $stmt->execute();
-    }
-}*/

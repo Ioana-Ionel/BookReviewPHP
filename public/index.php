@@ -39,13 +39,10 @@ switch ($path) {
             $password = $_POST['password'];
             $reader = new ReaderController();
             if ($reader->login($username, $password) == true) {
-                #if (session_status() == PHP_SESSION_NONE) {
-                    # initially the session is null, if it has a value then somebody is logged in
                 if (isset($_SESSION['user'])) {
                     echo "Somebody else was logged in";
                 }
                 $_SESSION['user'] = $username;
-                var_dump($_SESSION['user']);
                 redirect('/home');
             }
         }
@@ -58,7 +55,7 @@ switch ($path) {
             $username = $_POST["username"];
             $password = $_POST["password"];
             $password2 = $_POST['password2'];
-            if ($password != $password2) {
+            if (!($password === $password2)) {
                 require 'html/signUP.html';
             }
             $reader= new ReaderController();
@@ -67,14 +64,12 @@ switch ($path) {
                 echo "Somebody else was logged in";
             }
             $_SESSION['user'] = $username;
-            var_dump($_SESSION['user']);
             redirect('/home');
         }
         break;
 
     case '/home':
         if ($_SERVER['REQUEST_METHOD']==='GET') {
-            var_dump($_SESSION['user']);
             require 'html/home.html';
         }
         break;

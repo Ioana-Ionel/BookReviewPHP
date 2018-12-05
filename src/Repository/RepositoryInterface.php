@@ -9,11 +9,14 @@
 namespace BookReviews\Repository;
 
 /**
- * Interface Repository
+ * Interface RepositoryInterface
  * @package BookReviews\Repository
  */
-interface Repository
+interface RepositoryInterface
 {
+    /**
+     * @return mixed
+     */
     public function getId();
     public function add();
     public function update();
