@@ -2,6 +2,7 @@
 
 namespace BookReviews\Api\Controllers;
 
+use BookReviews\Api\DataInterface\Http\Response;
 use BookReviews\Repository\ReaderRepository;
 
 /**
@@ -10,6 +11,15 @@ use BookReviews\Repository\ReaderRepository;
  */
 class ReaderController
 {
+    public function index()
+    {
+        //Create the loader and the environment in an abstract controller with a getTwig() method
+        $loader = new \Twig_Loader_Filesystem(['path to folder with twig files']);
+        $twig = new \Twig_Environment($loader);
+
+        return new Response($twig->render('twig-file-name-here', ['paramName' => $paramValue]));
+    }
+
     /**
      * The function returns true if the reader is in the database
      * @param  string  $username
