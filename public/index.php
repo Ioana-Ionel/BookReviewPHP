@@ -36,18 +36,9 @@ switch ($path) {
         if ($_SERVER['REQUEST_METHOD']==='GET') {
             require 'html/login.html';
         } elseif ($_SERVER['REQUEST_METHOD']==='POST') {
-            $username = $_POST['username'];
-            $password = $_POST['password'];
-            $param = sprintf('%s %s', $username, $password);
-            $factory = new RequestFactory();
-            $request = $factory->request($path, $param);
-
+            $request = new RequestFactory();
             $controller = new ReaderController();
             $controller->login($request);
-
-
-
-
 
             if ($reader->login($username, $password) == true) {
                 if (isset($_SESSION['user'])) {

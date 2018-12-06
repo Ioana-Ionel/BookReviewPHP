@@ -8,6 +8,8 @@
 
 namespace BookReviews\Api\DataInterface\Http;
 
+use BookReviews\Entity\Reader;
+
 /**
  * Interface RequestInterface
  * @package BookReviews\Api\DataInterface\Http
@@ -15,8 +17,15 @@ namespace BookReviews\Api\DataInterface\Http;
 interface RequestInterface
 {
     /**
-     * @param string $parameters
-     * @return mixed
+     * Returns the logged in reader of null when no user is authenticated
+     * @return Reader|null
      */
-    public function create($parameters);
+    public function getLoggedInReader();
+
+    /**
+     * Returns tha path constant
+     * @return string
+     */
+    public static function getPath();
+
 }

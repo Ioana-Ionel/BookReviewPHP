@@ -17,10 +17,7 @@ use BookReviews\Api\DataInterface\Http\Request\SignUpRequest;
  */
 class ResponseFactory
 {
-    /**
-     * @param string $path
-     */
-    public function request($path)
+    public function create()
     {
 
     }

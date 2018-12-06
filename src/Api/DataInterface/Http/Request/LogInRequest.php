@@ -9,7 +9,6 @@
 namespace BookReviews\Api\DataInterface\Http\Request;
 
 use BookReviews\Api\DataInterface\Http\RequestInterface;
-use BookReviews\Entity\Reader;
 
 /**
  * Class LogInRequest
@@ -17,19 +16,51 @@ use BookReviews\Entity\Reader;
  */
 class LogInRequest implements RequestInterface
 {
-    /**
-     * @param string $param
-     * @return Reader|mixed
-     */
-    public function create($param)
-    {
-        $param = explode(' ', $param);
-        $username = $param[0];
-        $password = $param[1];
-        $reader  = new Reader();
-        $reader->setUsername($username);
-        $reader->setPassword($password);
 
-        return $reader;
+    private const URL_PATH = '/login';
+
+    /**
+     * @var string
+     */
+    private $username = null;
+
+    /**
+     * @var string
+     */
+    private $password = null;
+
+    /**
+     * LogInRequest constructor.
+     */
+    public function __construct()
+    {
+        $this->username = $this->getUsername();
+        $this->password = $this->getPassword();
+    }
+
+    /**
+     * @return \BookReviews\Entity\Reader|void|null
+     */
+    public function getLoggedInReader()
+    {
+        // TODO: Implement getLoggedInReader() method.
+    }
+
+    public function getUsername()
+    {
+        $this->username = $_POST['username'];
+    }
+
+    public function getPassword()
+    {
+        $this->password = $_POST['password'];
+    }
+
+    /**
+     * @return string
+     */
+    public static function getPath()
+    {
+        return self::URL_PATH;
     }
 }

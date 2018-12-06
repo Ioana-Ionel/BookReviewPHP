@@ -19,19 +19,14 @@ class RequestFactory
 {
     /**
      * @param string $path
-     * @param string $param
      * @return Mixed
      */
-    public function request($path, $param)
+    public function create($path)
     {
-        if ($path==="/login") {
-            $login = new LogInRequest();
+        if ($path === LogInRequest::getPath()) {
+            $request = new LogInRequest();
 
-            return $login->create($param);
-        } elseif ($path ==='/signUp') {
-            $signUp = new SignUpRequest();
-
-            return $signUp->create($param);
+            return $request;
         }
     }
 }

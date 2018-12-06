@@ -13,13 +13,13 @@ class ReaderController
 {
     /**
      * The function returns true if the reader is in the database
-     * @param  object $request
+     * @param  object $reader
      * @return boolean
      */
-    public function login($request)
+    public function login($reader)
     {
         $repository = new ReaderRepository();
-        $repository->findInDatabase($request);
+        $repository->findInDatabase($reader);
     }
 
     /**
