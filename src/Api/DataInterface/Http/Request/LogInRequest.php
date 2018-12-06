@@ -27,8 +27,8 @@ class LogInRequest implements RequestInterface
         $username = $param[0];
         $password = $param[1];
         $reader  = new Reader();
-        $reader->username = $username;
-        $reader->password = $password;
+        $reader->setUsername($username);
+        $reader->setPassword($password);
 
         return $reader;
     }

@@ -39,9 +39,9 @@ switch ($path) {
             $username = $_POST['username'];
             $password = $_POST['password'];
             $param = sprintf('%s %s', $username, $password);
-
             $factory = new RequestFactory();
             $request = $factory->request($path, $param);
+
             $controller = new ReaderController();
             $controller->login($request);
 

@@ -31,8 +31,8 @@ class SignUpRequest implements RequestInterface
 
         //TODO compare passwords, if they don't match send a response?
         $reader = new Reader();
-        $reader->username = $username;
-        $reader->password = $password;
+        $reader->setUsername($username);
+        $reader->setPassword($password);
 
         return $reader;
     }
