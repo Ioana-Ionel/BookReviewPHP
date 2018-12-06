@@ -2,6 +2,7 @@
 
 namespace BookReviews\Repository;
 
+use BookReviews\Entity\Reader;
 use \PDO;
 
 /**
@@ -15,31 +16,39 @@ class ReaderRepository implements RepositoryInterface
      */
     private $conn;
 
+    /**
+     * It sets the connection to the database
+     * ReaderRepository constructor.
+     */
     public function __construct()
     {
         $database = new DatabaseConnectionBuilder();
         $this->conn = $database->buildConnection();
+        $this->reader = new Reader();
     }
 
-    public function getId()
+
+    public function get($id)
     {
-        // TODO: Implement getId() method.
+        // TODO: Implement get() method.
+        return $this->reader->id;
     }
 
-    public function add()
+    public function add($reader)
     {
-        // TODO: Implement add() method.
+        throw new \Exception('Not implemented');
     }
 
-    public function update()
+    public function update($reader)
     {
         // TODO: Implement update() method.
     }
 
-    public function delete()
+    public function delete($reader)
     {
         // TODO: Implement delete() method.
     }
+
     /**
      * The function returns  true if the result of the query returns an array
      * and the password matches the one in the array.
@@ -47,7 +56,7 @@ class ReaderRepository implements RepositoryInterface
      * @param string $password
      * @return boolean
      */
-    public function findInDatabase($username, $password)
+    public function findInDatabase($request)
     {
         $stmt= $this->conn->prepare("SELECT * FROM readers WHERE username= :username");
         $stmt->bindValue(':username', $username, PDO::PARAM_STR);
@@ -105,4 +114,5 @@ class ReaderRepository implements RepositoryInterface
             echo $e;
         }
     }
+
 }

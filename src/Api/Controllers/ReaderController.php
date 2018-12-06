@@ -3,6 +3,7 @@
 namespace BookReviews\Api\Controllers;
 
 use BookReviews\Repository\ReaderRepository;
+use BookReviews\Entity\Reader;
 
 /**
  * Class ReaderController
@@ -12,14 +13,13 @@ class ReaderController
 {
     /**
      * The function returns true if the reader is in the database
-     * @param  string  $username
-     * @param  string  $password
+     * @param  object $request
      * @return boolean
      */
-    public function login($username, $password)
+    public function login($request)
     {
-        $reader = new ReaderRepository();
-        return $reader->findInDatabase($username, $password);
+        $repository = new ReaderRepository();
+        $repository->findInDatabase($request);
     }
 
     /**

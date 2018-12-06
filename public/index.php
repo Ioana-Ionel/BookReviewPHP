@@ -8,6 +8,7 @@
 
 include "../vendor/autoload.php";
 use BookReviews\Api\Controllers\ReaderController;
+use \BookReviews\Api\DataInterface\Http\RequestFactory;
 
 $request_uri = $_SERVER["REQUEST_URI"];
 $path = parse_url($request_uri, PHP_URL_PATH);
@@ -37,7 +38,17 @@ switch ($path) {
         } elseif ($_SERVER['REQUEST_METHOD']==='POST') {
             $username = $_POST['username'];
             $password = $_POST['password'];
-            $reader = new ReaderController();
+            $param = sprintf('%s %s', $username, $password);
+
+            $factory = new RequestFactory();
+            $request = $factory->request($path, $param);
+            $controller = new ReaderController();
+            $controller->login($request);
+
+
+
+
+
             if ($reader->login($username, $password) == true) {
                 if (isset($_SESSION['user'])) {
                     echo "Somebody else was logged in";
