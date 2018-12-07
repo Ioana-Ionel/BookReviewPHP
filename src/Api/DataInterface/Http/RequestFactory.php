@@ -19,14 +19,27 @@ class RequestFactory
 {
     /**
      * @param string $path
-     * @return Mixed
+     * @return Mixed|null
      */
-    public function create($path)
+    public function create()
     {
+        $request_uri = $_SERVER["REQUEST_URI"];
+        $path = parse_url($request_uri, PHP_URL_PATH);
+
         if ($path === LogInRequest::getPath()) {
-            $request = new LogInRequest();
+            $username = $_POST['username'];
+            $password = $_POST['password'];
+            $request = new LogInRequest($username, $password);
+
+            return $request;
+        } elseif ($path === SignUpRequest::getPath()) {
+            $username = $_POST["username"];
+            $password = $_POST["password"];
+            $passwordRedo = $_POST['password2'];
+            $request = new SignUpRequest($username, $password, $passwordRedo);
 
             return $request;
         }
+        return null;
     }
 }

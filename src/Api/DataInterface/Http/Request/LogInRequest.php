@@ -22,20 +22,22 @@ class LogInRequest implements RequestInterface
     /**
      * @var string
      */
-    private $username = null;
+    private $username = '';
 
     /**
      * @var string
      */
-    private $password = null;
+    private $password = '';
 
     /**
      * LogInRequest constructor.
+     * @param string $username
+     * @param string $password
      */
-    public function __construct()
+    public function __construct($username, $password)
     {
-        $this->username = $this->getUsername();
-        $this->password = $this->getPassword();
+        $this->username = $username;
+        $this->password = $password;
     }
 
     /**
@@ -46,14 +48,20 @@ class LogInRequest implements RequestInterface
         // TODO: Implement getLoggedInReader() method.
     }
 
+    /**
+     * @return string
+     */
     public function getUsername()
     {
-        $this->username = $_POST['username'];
+        return $this->username;
     }
 
+    /**
+     * @return string
+     */
     public function getPassword()
     {
-        $this->password = $_POST['password'];
+        return $this->password;
     }
 
     /**

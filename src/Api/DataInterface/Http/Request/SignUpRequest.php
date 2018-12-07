@@ -9,7 +9,6 @@
 namespace BookReviews\Api\DataInterface\Http\Request;
 
 use BookReviews\Api\DataInterface\Http\RequestInterface;
-use BookReviews\Entity\Reader;
 
 /**
  * Class SignUpRequest
@@ -17,23 +16,50 @@ use BookReviews\Entity\Reader;
  */
 class SignUpRequest implements RequestInterface
 {
+    private const URL_PATH = '/signUp';
 
     /**
-     * @param string $param
-     * @return Reader
+     * @var string
      */
-    public function create($param)
+    private $username ='';
+
+    /**
+     * @var string
+     */
+    private $password = '';
+
+    /**
+     * @var string
+     */
+    private $passwordRedo = '';
+
+    /**
+     * SignUpRequest constructor.
+     * @param string $username
+     * @param string $password
+     * @param string $passwordRedo
+     */
+    public function __construct($username, $password, $passwordRedo)
     {
-        $param = explode(' ', $param);
-        $username = $param[0];
-        $password = $param[1];
-        $passwordRedo  =$param[2];
+        $this->username = $username;
+        $this->password = $password;
+        $this->passwordRedo = $passwordRedo;
+    }
 
-        //TODO compare passwords, if they don't match send a response?
-        $reader = new Reader();
-        $reader->setUsername($username);
-        $reader->setPassword($password);
+    /**
+     * @return \BookReviews\Entity\Reader|void|null
+     */
+    public function getLoggedInReader()
+    {
+        // TODO: Implement getLoggedInReader() method.
+    }
 
-        return $reader;
+    /**
+     * Returns the constant URL_PATH
+     * @return string
+     */
+    public static function getPath()
+    {
+        return self::URL_PATH;
     }
 }

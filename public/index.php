@@ -36,17 +36,10 @@ switch ($path) {
         if ($_SERVER['REQUEST_METHOD']==='GET') {
             require 'html/login.html';
         } elseif ($_SERVER['REQUEST_METHOD']==='POST') {
-            $request = new RequestFactory();
+            $factory = new RequestFactory();
+            $request = $factory->create();
             $controller = new ReaderController();
             $controller->login($request);
-
-            if ($reader->login($username, $password) == true) {
-                if (isset($_SESSION['user'])) {
-                    echo "Somebody else was logged in";
-                }
-                $_SESSION['user'] = $username;
-                redirect('/home');
-            }
         }
         break;
 
@@ -54,19 +47,10 @@ switch ($path) {
         if ($_SERVER['REQUEST_METHOD']==='GET') {
             require 'html/signUp.html';
         } elseif ($_SERVER['REQUEST_METHOD']==='POST') {
-            $username = $_POST["username"];
-            $password = $_POST["password"];
-            $password2 = $_POST['password2'];
-            if (!($password === $password2)) {
-                require 'html/signUP.html';
-            }
-            $reader= new ReaderController();
-            $reader->signUp($username, $password);
-            if (isset($_SESSION['user'])) {
-                echo "Somebody else was logged in";
-            }
-            $_SESSION['user'] = $username;
-            redirect('/home');
+            $factory = new RequestFactory();
+            $request = $factory->create();
+            $controller = new ReaderController();
+            $controller->signUp($request);
         }
         break;
 

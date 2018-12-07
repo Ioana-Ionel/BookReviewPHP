@@ -2,6 +2,7 @@
 
 namespace BookReviews\Repository;
 
+use BookReviews\Api\Controllers\ReaderController;
 use BookReviews\Entity\Reader;
 use \PDO;
 
@@ -24,14 +25,13 @@ class ReaderRepository implements RepositoryInterface
     {
         $database = new DatabaseConnectionBuilder();
         $this->conn = $database->buildConnection();
-        $this->reader = new Reader();
     }
 
 
     public function get($id)
     {
         // TODO: Implement get() method.
-        return $this->reader->id;
+        return $this->reader->getId();
     }
 
     public function add($reader)
@@ -50,22 +50,37 @@ class ReaderRepository implements RepositoryInterface
     }
 
     /**
-     * The function returns  true if the result of the query returns an array
-     * and the password matches the one in the array.
+     * The function returns a reader object
+     * @param int $id
      * @param string $username
      * @param string $password
-     * @return boolean
+     * @param string $salt
+     * @return Reader
      */
-    public function findInDatabase($request)
+    public function builtReader($id, $username, $password, $salt)
+    {
+        $reader = new Reader();
+        $reader->setId($id);
+        $reader->setUsername($username);
+        $reader->setPassword($password);
+        $reader->setSalt($salt);
+        return $reader;
+    }
+
+    /**
+     * @param string $username
+     * @return Reader|null
+     */
+    public function findInDatabase($username)
     {
         $stmt= $this->conn->prepare("SELECT * FROM readers WHERE username= :username");
         $stmt->bindValue(':username', $username, PDO::PARAM_STR);
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_BOTH);
-        if (count($result)!= 0 && $result[0][2] == $password) {
-            return true;
+        if (count($result)!=0) {
+            $this->builtReader($result[0]['id'], $result[0]['username'], $result[0]['password'], $result[0]['salt']);
         } else {
-            return false;
+            return null;
         }
     }
 
@@ -77,27 +92,10 @@ class ReaderRepository implements RepositoryInterface
      * @throws /Exception
      */
 
-    public function addToDatabase($username, $password)
+    public function addToDatabase($request)
     {
         //TODO generate a hash for the password
         //TODO salt in repository
-        $stmt = $this->conn->prepare("SELECT * FROM readers WHERE username= :username");
-        $stmt->bindValue(':username', $username, PDO::PARAM_STR);
-        $stmt->execute();
-        $result = $stmt->fetchAll(PDO::FETCH_BOTH);
-        if (sizeof($result)!= 0) {
-            return false;
-        }
-        $salt = $this->createSalt();
-        $stmt= $this->conn->prepare('INSERT into TABLE reades VALUES(id = :id,
-                                username= :username,
-                                password= :password,
-                                salt= :salt)');
-        $stmt->bindValue(':id', null);
-        $stmt->bindValue(':username', $username, PDO::PARAM_STR);
-        $stmt->bindValue(':password', $password, PDO::PARAM_STR);
-        $stmt->bindValue(':salt', $salt, PDO::PARAM_STR);
-        $stmt->execute();
     }
 
     /**
