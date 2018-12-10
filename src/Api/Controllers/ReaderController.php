@@ -4,7 +4,7 @@ namespace BookReviews\Api\Controllers;
 
 use BookReviews\Repository\ReaderRepository;
 use BookReviews\Entity\Reader;
-use BookReviews\Services\Validator;
+use BookReviews\Services\ReaderValidator;
 
 /**
  * Class ReaderController
@@ -15,27 +15,28 @@ class ReaderController
     /**
      * The function returns true if the reader is in the database
      * @param  object $request
-     * @return string $response
+     * @return boolean
      */
     public function login($request)
     {
-        $response ='Ok';
         $repository = new ReaderRepository();
         $reader = $repository->findInDatabase($request->getUsername());
-        $validator = new Validator();
-        if ($validator->compareValues($reader->getPassword(), $request->getPassword())) {
-            return $response;
+        $validator = new ReaderValidator();
+        if ($validator->validateHashedPassword($reader, $request->getPassword())) {
+            return true;
         }
     }
 
     /**
      * If the username is not unique the function will return false
-     * @param  object $reader
-     * @return boolean
+     * @param  object $request
      */
-    public function signUp($reader)
+    public function signUp($request)
     {
-        $repository = new ReaderRepository();
-
+        $validator = new ReaderValidator();
+        if ($validator->validatePasswords($request->getPassword(), $request>getPasswordRedo())) {
+            $repository = new ReaderRepository();
+            $reader = $repository->addToDatabase($request->getUsername, $request->getPassword);
+        }
     }
 }

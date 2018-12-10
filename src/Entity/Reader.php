@@ -16,17 +16,17 @@ class Reader
     /**
      * @var string
      */
-    private $username;
+    private $username='';
 
     /**
      * @var string
      */
-    private $password;
+    private $password='';
 
     /**
      * @var string
      */
-    private $salt;
+    private $salt='';
 
     /**
      * @param  int $id

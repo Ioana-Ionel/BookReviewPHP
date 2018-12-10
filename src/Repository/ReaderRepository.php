@@ -2,8 +2,8 @@
 
 namespace BookReviews\Repository;
 
-use BookReviews\Api\Controllers\ReaderController;
 use BookReviews\Entity\Reader;
+use BookReviews\Services\ReaderValidator;
 use \PDO;
 
 /**
@@ -27,23 +27,47 @@ class ReaderRepository implements RepositoryInterface
         $this->conn = $database->buildConnection();
     }
 
-
-    public function get($id)
+    /**
+     * @param Reader $reader
+     * @return int
+     */
+    public function get($reader)
     {
         // TODO: Implement get() method.
-        return $this->reader->getId();
+        return $reader->getId();
     }
 
+    /**
+     * It adds a reader to the database
+     * @param object $reader
+     * @return object|void
+     */
     public function add($reader)
     {
-        throw new \Exception('Not implemented');
+        $stmt= $this->conn->prepare('INSERT INTO readers VALUES(
+                                                  null,
+                                                  username= :username,
+                                                  password= :password,
+                                                  salt= :salt)');
+        $stmt->bindValue(':username', $reader->getUsename(), PDO::PARAM_STR);
+        $stmt->bindValue(':password', $reader->getPassword(), PDO::PARAM_STR);
+        $stmt->bindValue(':salt', $reader->getSalt(), PDO::PARAM_STR);
     }
 
+    /**
+     * Updates the data for a reader
+     * @param object $reader
+     * @return object|void
+     */
     public function update($reader)
     {
         // TODO: Implement update() method.
     }
 
+    /**
+     * Deletes a reader
+     * @param object $reader
+     */
     public function delete($reader)
     {
         // TODO: Implement delete() method.
@@ -68,6 +92,7 @@ class ReaderRepository implements RepositoryInterface
     }
 
     /**
+     * Returns a reader if it waas found in the database
      * @param string $username
      * @return Reader|null
      */
@@ -76,9 +101,14 @@ class ReaderRepository implements RepositoryInterface
         $stmt= $this->conn->prepare("SELECT * FROM readers WHERE username= :username");
         $stmt->bindValue(':username', $username, PDO::PARAM_STR);
         $stmt->execute();
-        $result = $stmt->fetchAll(PDO::FETCH_BOTH);
+        $result = $stmt->fetch(PDO::FETCH_BOTH);
         if (count($result)!=0) {
-            $this->builtReader($result[0]['id'], $result[0]['username'], $result[0]['password'], $result[0]['salt']);
+            return $this->builtReader(
+                $result['id'],
+                $result['username'],
+                $result['password'],
+                $result['salt']
+            );
         } else {
             return null;
         }
@@ -88,14 +118,21 @@ class ReaderRepository implements RepositoryInterface
      * After checking if the username is unique insert the new reader in the database
      * @param  string $username
      * @param  string $password
-     * @return boolean
+     * @return Reader|null
      * @throws /Exception
      */
 
-    public function addToDatabase($request)
+    public function addToDatabase($username, $password)
     {
-        //TODO generate a hash for the password
-        //TODO salt in repository
+        if ($this->findInDatabase($username) == null) {
+            $salt = $this->createSalt();
+            $validator = new ReaderValidator();
+            $hashedPassword = $validator->hashPassword($password, $salt);
+            $reader = $this->builtReader(null, $username, $hashedPassword, $salt);
+            $this->add($reader);
+            return $reader;
+        }
+        return null;
     }
 
     /**
@@ -111,6 +148,7 @@ class ReaderRepository implements RepositoryInterface
         } catch (Exeption $e) {
             echo $e;
         }
+        return null;
     }
 
 }

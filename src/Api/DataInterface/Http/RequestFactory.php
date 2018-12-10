@@ -18,7 +18,6 @@ use BookReviews\Api\DataInterface\Http\Request\SignUpRequest;
 class RequestFactory
 {
     /**
-     * @param string $path
      * @return Mixed|null
      */
     public function create()

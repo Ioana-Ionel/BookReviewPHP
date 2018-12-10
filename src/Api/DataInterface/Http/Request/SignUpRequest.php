@@ -55,6 +55,29 @@ class SignUpRequest implements RequestInterface
     }
 
     /**
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPasswordRedo()
+    {
+        return $this->passwordRedo;
+    }
+    /**
      * Returns the constant URL_PATH
      * @return string
      */
