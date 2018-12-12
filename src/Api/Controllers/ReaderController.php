@@ -2,8 +2,8 @@
 
 namespace BookReviews\Api\Controllers;
 
+use BookReviews\Api\DataInterface\Http\ResponseFactory;
 use BookReviews\Repository\ReaderRepository;
-use BookReviews\Entity\Reader;
 use BookReviews\Services\ReaderValidator;
 
 /**
@@ -15,7 +15,7 @@ class ReaderController
     /**
      * The function returns true if the reader is in the database
      * @param  object $request
-     * @return boolean
+     * @return string
      */
     public function login($request)
     {
@@ -23,7 +23,10 @@ class ReaderController
         $reader = $repository->findInDatabase($request->getUsername());
         $validator = new ReaderValidator();
         if ($validator->validateHashedPassword($reader, $request->getPassword())) {
-            return true;
+            //TODO if the passwords match then a response object should be created and returned to the index
+            $factory = new ResponseFactory();
+            $response = $factory->create();
+            return $response->renderHtml($reader);
         }
     }
 

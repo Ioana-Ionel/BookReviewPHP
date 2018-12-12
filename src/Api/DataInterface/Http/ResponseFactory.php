@@ -8,8 +8,8 @@
 
 namespace BookReviews\Api\DataInterface\Http;
 
-use BookReviews\Api\DataInterface\Http\Request\LogInRequest;
-use BookReviews\Api\DataInterface\Http\Request\SignUpRequest;
+use BookReviews\Api\DataInterface\Http\Response\LoginResponse;
+use BookReviews\Entity\Reader;
 
 /**
  * Class ResponseFactory
@@ -17,9 +17,19 @@ use BookReviews\Api\DataInterface\Http\Request\SignUpRequest;
  */
 class ResponseFactory
 {
+    /**
+     * @param Reader $reader
+     * @return LoginResponse
+     */
     public function create()
     {
+        $request_uri = $_SERVER["REQUEST_URI"];
+        $path = parse_url($request_uri, PHP_URL_PATH);
 
+        if ($path === LoginResponse::getPath()) {
+            $loginResponse = new LoginResponse();
+            return $loginResponse;
+        }
     }
 }
 

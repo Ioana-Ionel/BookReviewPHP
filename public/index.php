@@ -39,11 +39,7 @@ switch ($path) {
             $factory = new RequestFactory();
             $request = $factory->create();
             $controller = new ReaderController();
-            if ($controller->login($request)) {
-                $loader = new Twig_Loader_Filesystem("C:\wamp64\www\books\public\html\");
-                $twig = new Twig_Environment($loader);
-                $twig->render('home.html', array('reader'=>$request->getUsername()));
-            }
+            echo $controller->login($request);
         }
         break;
 
