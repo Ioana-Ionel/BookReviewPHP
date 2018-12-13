@@ -14,7 +14,21 @@ namespace BookReviews\Api\DataInterface\Http;
  */
 interface ResponseInterface
 {
+    /**
+     * Returns the header
+     * @return mixed
+     */
     public function getHeaders();
-    public function getContentType();
-    public function getResponseBody();
+
+    /**
+     * Returns the status code
+     * @return int
+     */
+    public function getStatusCode();
+
+    /**
+     * Returns the content
+     * @return mixed
+     */
+    public function getContent();
 }

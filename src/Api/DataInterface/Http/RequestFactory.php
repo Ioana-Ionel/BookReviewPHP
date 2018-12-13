@@ -34,7 +34,7 @@ class RequestFactory
         } elseif ($path === SignUpRequest::getPath()) {
             $username = $_POST["username"];
             $password = $_POST["password"];
-            $passwordRedo = $_POST['password2'];
+            $passwordRedo = $_POST['passwordRedo'];
             $request = new SignUpRequest($username, $password, $passwordRedo);
 
             return $request;

@@ -8,8 +8,12 @@
 </head>
 <body>
 <div class='container' style="background-color:#f1f1f1; text-align: center">
-    <h1 style="text-align: center;">Welcome {{ reader }} </h1>
-    <a href="/logout"><button type="button"> Log out </button></a>
+    {%if error %}
+        <h1 style="text-align: center;">{{ error.getMessage() }} </h1>
+    {% else %}
+        <h1 style="text-align: center;">Welcome {{ reader.getUsername() }} </h1>
+        <a href="/logout"><button type="button"> Log out </button></a>
+    {% endif %}
 </div>
 </body>
 </html>

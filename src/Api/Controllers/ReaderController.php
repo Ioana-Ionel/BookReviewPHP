@@ -22,11 +22,16 @@ class ReaderController
         $repository = new ReaderRepository();
         $reader = $repository->findInDatabase($request->getUsername());
         $validator = new ReaderValidator();
-        if ($validator->validateHashedPassword($reader, $request->getPassword())) {
+        if ($validator->validatePassword($reader, $request->getPassword())) {
             //TODO if the passwords match then a response object should be created and returned to the index
             $factory = new ResponseFactory();
             $response = $factory->create();
-            return $response->renderHtml($reader);
+            return $response->renderHtml($reader, null);
+        } else {
+            $invalidLogin = $validator->getInvalidLoginError();
+            $factory = new ResponseFactory();
+            $response = $factory->create();
+            return $response->renderHtml(null, $invalidLogin);
         }
     }
 
@@ -37,9 +42,12 @@ class ReaderController
     public function signUp($request)
     {
         $validator = new ReaderValidator();
-        if ($validator->validatePasswords($request->getPassword(), $request>getPasswordRedo())) {
+        if ($validator->validateNewReaderPasswords($request->getPassword(), $request->getPasswordRedo())) {
             $repository = new ReaderRepository();
-            $reader = $repository->addToDatabase($request->getUsername, $request->getPassword);
+            $reader = $repository->addToDatabase($request->getUsername(), $request->getPassword());
+            if ($reader != null) {
+                echo 'ok';
+            }
         }
     }
 }

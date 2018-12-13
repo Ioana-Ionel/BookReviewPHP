@@ -39,7 +39,8 @@ switch ($path) {
             $factory = new RequestFactory();
             $request = $factory->create();
             $controller = new ReaderController();
-            echo $controller->login($request);
+            $_SESSION['content'] = $controller->login($request);
+            redirect('/home');
         }
         break;
 
@@ -56,7 +57,7 @@ switch ($path) {
 
     case '/home':
         if ($_SERVER['REQUEST_METHOD']==='GET') {
-            require 'html/home.html';
+            echo $_SESSION['content'];
         }
         break;
 

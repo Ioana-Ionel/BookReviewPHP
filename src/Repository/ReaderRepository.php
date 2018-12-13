@@ -3,7 +3,7 @@
 namespace BookReviews\Repository;
 
 use BookReviews\Entity\Reader;
-use BookReviews\Services\ReaderValidator;
+use BookReviews\Services\ReaderSecurity;
 use \PDO;
 
 /**
@@ -40,18 +40,20 @@ class ReaderRepository implements RepositoryInterface
     /**
      * It adds a reader to the database
      * @param object $reader
-     * @return object|void
      */
     public function add($reader)
     {
-        $stmt= $this->conn->prepare('INSERT INTO readers VALUES(
-                                                  null,
-                                                  username= :username,
-                                                  password= :password,
-                                                  salt= :salt)');
-        $stmt->bindValue(':username', $reader->getUsename(), PDO::PARAM_STR);
-        $stmt->bindValue(':password', $reader->getPassword(), PDO::PARAM_STR);
-        $stmt->bindValue(':salt', $reader->getSalt(), PDO::PARAM_STR);
+        $stmt = $this->conn->prepare('INSERT INTO readers(username, password, salt) VALUES( :username, :password, :salt)');
+        $username = $reader->getUsername();
+        $password = $reader->getpassword();
+        $salt = $reader->getSalt();
+        $stmt->bindValue(':username', $username, PDO::PARAM_STR);
+        $stmt->bindValue(':password', $password, PDO::PARAM_STR);
+        $stmt->bindValue(':salt', $salt, PDO::PARAM_STR);
+        $isSuccessful = $stmt->execute();
+        if (!$isSuccessful) {
+            throw new \PDOException(implode(' ', $stmt->errorInfo()));
+        }
     }
 
     /**
@@ -102,16 +104,15 @@ class ReaderRepository implements RepositoryInterface
         $stmt->bindValue(':username', $username, PDO::PARAM_STR);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_BOTH);
-        if (count($result)!=0) {
+        if ($result != false) {
             return $this->builtReader(
                 $result['id'],
                 $result['username'],
                 $result['password'],
                 $result['salt']
             );
-        } else {
-            return null;
         }
+        return null;
     }
 
     /**
@@ -126,8 +127,8 @@ class ReaderRepository implements RepositoryInterface
     {
         if ($this->findInDatabase($username) == null) {
             $salt = $this->createSalt();
-            $validator = new ReaderValidator();
-            $hashedPassword = $validator->hashPassword($password, $salt);
+            $security = new ReaderSecurity();
+            $hashedPassword = $security->hashPassword($password, $salt);
             $reader = $this->builtReader(null, $username, $hashedPassword, $salt);
             $this->add($reader);
             return $reader;
@@ -145,10 +146,9 @@ class ReaderRepository implements RepositoryInterface
             $salt = random_bytes(16);
 
             return $salt;
-        } catch (Exeption $e) {
+        } catch (\Exception $e) {
             echo $e;
         }
         return null;
     }
-
 }

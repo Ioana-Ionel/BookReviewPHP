@@ -18,30 +18,28 @@ class ReaderValidator
 {
     /**
      * @param Reader $reader
-     * @param string $requestPassword
+     * @param string $password
      * @return boolean
      */
-    public function validateHashedPassword($reader, $requestPassword)
+    public function validatePassword($reader, $password)
     {
         //TODO hash the password
         $salt = $reader->getSalt();
-        $hashedRequestPassword =  $this->hashPassword($requestPassword, $salt);
-        if ($reader->getPassword() === $hashedRequestPassword) {
+        $security = new ReaderSecurity();
+        $hashedPassword = $security->hashPassword($password, $salt);
+        if ($reader->getPassword() === $hashedPassword) {
             return true;
         }
         return false;
     }
 
     /**
-     * @param string $password
-     * @param string $salt
-     * @return string
+     * @return ErrorMessages
      */
-    public function hashPassword($password, $salt)
+    public function getInvalidLoginError()
     {
-        $password = sprintf('%s%s', $password, $salt);
-        $hashedPassword = sha1($password);
-        return $hashedPassword;
+        $error = new ErrorMessages('Invalid credentials');
+        return $error;
     }
 
     /**
@@ -49,7 +47,7 @@ class ReaderValidator
      * @param string $passwordRedo
      * @return boolean
      */
-    public function validatePasswords($password, $passwordRedo)
+    public function validateNewReaderPasswords($password, $passwordRedo)
     {
         if ($password === $passwordRedo) {
             return true;

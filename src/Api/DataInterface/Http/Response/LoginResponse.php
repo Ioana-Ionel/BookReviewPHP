@@ -9,6 +9,7 @@
 namespace BookReviews\Api\DataInterface\Http\Response;
 
 use BookReviews\Api\DataInterface\Http\ResponseInterface;
+use BookReviews\Services\ErrorMessages;
 use Twig_Loader_Filesystem;
 use Twig_Environment;
 use BookReviews\Entity\Reader;
@@ -24,6 +25,49 @@ class LoginResponse implements ResponseInterface
      */
     private const URL_PATH = '/login';
 
+    /**
+     * @param Reader        $reader
+     * @param ErrorMessages $error
+     * @return |null
+     */
+    public function renderHtml($reader, $error)
+    {
+        try {
+            $loader = new Twig_Loader_Filesystem("html/");
+            $twig = new Twig_Environment($loader);
+            return $twig->render('home.html.twig', array('reader' => $reader, 'error' => $error));
+        } catch (\Twig_Error $e) {
+            echo $e;
+        }
+        return null;
+    }
+
+    /**
+     * Returns the header
+     * @return mixed|void
+     */
+    public function getHeaders()
+    {
+        // TODO: Implement getHeaders() method.
+    }
+
+    /**
+     * Returns the status code
+     * @return int|void
+     */
+    public function getStatusCode()
+    {
+        // TODO: Implement getStatusCode() method.
+    }
+
+    /**
+     * Returns the content
+     * @return mixed|void
+     */
+    public function getContent()
+    {
+        // TODO: Implement getContent() method.
+    }
 
     /**
      * @return string
@@ -31,41 +75,5 @@ class LoginResponse implements ResponseInterface
     public static function getPath()
     {
         return self::URL_PATH;
-    }
-
-
-    /**
-     * @param Reader $reader
-     * @return string
-     */
-    public function renderHtml($reader)
-    {
-        try {
-            $loader = new Twig_Loader_Filesystem("html/");
-            $twig = new Twig_Environment($loader);
-            return $twig->render('home.html.twig', array('reader' => $reader->getUsername()));
-        } catch (\Twig_Error $e) {
-            echo $e;
-        }
-        return null;
-    }
-
-
-    public function getHeaders()
-    {
-        // TODO: Implement getHeaders() method.
-    }
-
-    public function getContentType()
-    {
-        // TODO: Implement getContentType() method.
-    }
-
-    /**
-     * This function should return the html page
-     */
-    public function getResponseBody()
-    {
-        // TODO: Implement getResponseBody() method.
     }
 }
