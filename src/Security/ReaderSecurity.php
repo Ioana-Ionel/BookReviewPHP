@@ -6,7 +6,7 @@
  * Time: 5:27 PM
  */
 
-namespace BookReviews\Services;
+namespace BookReviews\Security;
 
 /**
  * Class ReaderSecurity
@@ -23,6 +23,7 @@ class ReaderSecurity
     {
         $password = sprintf('%s%s', $password, $salt);
         $hashedPassword = sha1($password);
+
         return $hashedPassword;
     }
 }

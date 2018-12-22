@@ -27,5 +27,4 @@ interface RequestInterface
      * @return string
      */
     public static function getPath();
-
 }

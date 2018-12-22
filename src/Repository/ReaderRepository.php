@@ -3,7 +3,7 @@
 namespace BookReviews\Repository;
 
 use BookReviews\Entity\Reader;
-use BookReviews\Services\ReaderSecurity;
+use BookReviews\Security\ReaderSecurity;
 use \PDO;
 
 /**
@@ -94,7 +94,7 @@ class ReaderRepository implements RepositoryInterface
     }
 
     /**
-     * Returns a reader if it waas found in the database
+     * Returns a reader if it was found in the database
      * @param string $username
      * @return Reader|null
      */

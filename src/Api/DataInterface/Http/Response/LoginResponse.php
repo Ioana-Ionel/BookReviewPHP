@@ -28,14 +28,18 @@ class LoginResponse implements ResponseInterface
     /**
      * @param Reader        $reader
      * @param ErrorMessages $error
-     * @return |null
+     * @return string|null
      */
     public function renderHtml($reader, $error)
     {
         try {
             $loader = new Twig_Loader_Filesystem("html/");
             $twig = new Twig_Environment($loader);
-            return $twig->render('home.html.twig', array('reader' => $reader, 'error' => $error));
+            if ($reader && !$error) {
+                return $twig->render('home.html.twig', ['reader' => $reader]);
+            } else {
+                return $twig->render('login.html.twig', ['error' => $error]);
+            }
         } catch (\Twig_Error $e) {
             echo $e;
         }

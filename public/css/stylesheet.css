@@ -95,3 +95,10 @@ button:hover {
 .dropdown a:hover {background-color: #ddd;}
 
 .show {display: block;}
+
+.alert {
+    padding: 20px;
+    background-color: #6b488e;
+    color: white;
+    text-align: center;
+}

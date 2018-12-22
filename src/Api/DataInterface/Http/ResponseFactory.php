@@ -9,7 +9,6 @@
 namespace BookReviews\Api\DataInterface\Http;
 
 use BookReviews\Api\DataInterface\Http\Response\LoginResponse;
-use BookReviews\Entity\Reader;
 
 /**
  * Class ResponseFactory
@@ -18,8 +17,7 @@ use BookReviews\Entity\Reader;
 class ResponseFactory
 {
     /**
-     * @param Reader $reader
-     * @return LoginResponse
+     * @return LoginResponse|null
      */
     public function create()
     {
@@ -28,8 +26,10 @@ class ResponseFactory
 
         if ($path === LoginResponse::getPath()) {
             $loginResponse = new LoginResponse();
+
             return $loginResponse;
         }
+
+        return null;
     }
 }
-

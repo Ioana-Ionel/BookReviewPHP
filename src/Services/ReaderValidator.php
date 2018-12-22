@@ -9,6 +9,7 @@
 namespace BookReviews\Services;
 
 use BookReviews\Entity\Reader;
+use BookReviews\Security\ReaderSecurity;
 
 /**
  * Class ReaderValidator
@@ -55,4 +56,3 @@ class ReaderValidator
         return false;
     }
 }
-

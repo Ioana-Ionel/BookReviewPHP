@@ -28,6 +28,9 @@ class ErrorMessages
         $this->message = $message;
     }
 
+    /**
+     * @return string
+     */
     public function getMessage()
     {
         return $this->message;

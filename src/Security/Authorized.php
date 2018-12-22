@@ -8,7 +8,11 @@
 
 namespace BookReviews\Security;
 
-class Authorizer
+/**
+ * Class Authorized
+ * @package BookReviews\Security
+ */
+class Authorized
 {
     public function isAuthorized()
     {
