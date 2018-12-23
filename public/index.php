@@ -69,7 +69,12 @@ switch ($path) {
             $factory = new RequestFactory();
             $request = $factory->create();
             $controller = new ReaderController();
-            $controller->signUp($request);
+            $response = $controller->signUp($request);
+            if ($response->getResponseCode() === 202) {
+                $_SESSION['user'] = $request->getUsername();
+                $_SESSION['content'] = $response->getContent();
+                redirect($response->getHeader());
+            }
         }
         break;
 

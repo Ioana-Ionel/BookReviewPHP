@@ -43,7 +43,8 @@ class ReaderRepository implements RepositoryInterface
      */
     public function add($reader)
     {
-        $stmt = $this->conn->prepare('INSERT INTO readers(username, password, salt) VALUES( :username, :password, :salt)');
+        $stmt = $this->conn->prepare('INSERT INTO readers(username, password, salt) 
+                                                VALUES( :username, :password, :salt)');
         $username = $reader->getUsername();
         $password = $reader->getpassword();
         $salt = $reader->getSalt();

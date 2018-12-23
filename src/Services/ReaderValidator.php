@@ -40,6 +40,17 @@ class ReaderValidator
     public function getInvalidLoginError()
     {
         $error = new ErrorMessages('Invalid credentials');
+
+        return $error;
+    }
+
+    /**
+     * @return ErrorMessages
+     */
+    public function getInvalidSignUpError()
+    {
+        $error = new ErrorMessages('You have an error in the sign up form');
+
         return $error;
     }
 

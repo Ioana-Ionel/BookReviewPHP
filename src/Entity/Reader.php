@@ -90,5 +90,4 @@ class Reader
     {
         return $this->salt;
     }
-
 }

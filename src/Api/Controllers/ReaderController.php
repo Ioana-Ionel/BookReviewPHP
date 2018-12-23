@@ -25,36 +25,30 @@ class ReaderController
         $reader = $repository->findInDatabase($request->getUsername());
         $validator = new ReaderValidator();
         //TODO condense the code
-        if ($validator->validatePassword($reader, $request->getPassword())) {
-            try {
-                $loader = new Twig_Loader_Filesystem("html/");
-                $twig = new Twig_Environment($loader);
+        try {
+            $loader = new Twig_Loader_Filesystem("html/");
+            $twig = new Twig_Environment($loader);
+            if ($validator->validatePassword($reader, $request->getPassword())) {
                 $content = $twig->render('home.html.twig', ['reader' => $reader]);
                 $response = new Response($content, 202, '/');
 
                 return $response;
-            } catch (\Twig_Error $error) {
-                echo $error;
-            }
-        } else {
-            try {
+            } else {
                 $invalidLogin = $validator->getInvalidLoginError();
-                $loader = new Twig_Loader_Filesystem("html/");
-                $twig = new Twig_Environment($loader);
                 $content = $twig->render('login.html.twig', ['error' => $invalidLogin]);
                 $response = new Response($content, 401, '/login');
 
                 return $response;
-            } catch (\Twig_Error $error) {
-                echo $error;
             }
+        } catch (\Twig_Error $e) {
+            echo $e;
         }
         return null;
     }
 
     /**
-     * If the username is not unique the function will return false
-     * @param  object $request
+     * @param object $request
+     * @return Response
      */
     public function signUp($request)
     {
@@ -62,9 +56,26 @@ class ReaderController
         if ($validator->validateNewReaderPasswords($request->getPassword(), $request->getPasswordRedo())) {
             $repository = new ReaderRepository();
             $reader = $repository->addToDatabase($request->getUsername(), $request->getPassword());
-            if ($reader != null) {
-                echo 'ok';
+            try {
+                $loader = new Twig_Loader_Filesystem("html/");
+                $twig = new Twig_Environment($loader);
+                if ($reader != null) {
+                    $content = $twig->render('home.html.twig', ['reader' => $reader]);
+                    $response = new Response($content, 202, '/');
+
+                    return $response;
+                } else {
+                    $validator = new ReaderValidator();
+                    $signUpError = $validator->getInvalidSignUpError();
+                    $content = $twig->render('signUp.html.twig', ['error' => $signUpError]);
+                    $response = new Response($content, 401, '/signUp');
+
+                    return $response;
+                }
+            } catch (\Twig_Error $e) {
+                echo $e;
             }
         }
+        return null;
     }
 }
