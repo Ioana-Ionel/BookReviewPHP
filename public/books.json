@@ -1,0 +1,15 @@
+[
+  {
+    "id": 1,
+    "ISBN":"0-7710-0813-9",
+    "title": "The Handmaid's Tale",
+    "author": "Margaret Atwood",
+    "year": 1985
+  },
+  { "id": 2,
+    "ISBN": "1-4000-4339-5",
+    "title": "Never Let Me Go",
+    "author":"Kazuo Ishiguro",
+    "year": 2005
+  }
+]

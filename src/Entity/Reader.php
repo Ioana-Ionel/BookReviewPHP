@@ -11,41 +11,83 @@ class Reader
     /**
      * @var int
      */
-    protected $id;
+    private $id;
 
     /**
      * @var string
      */
-    protected $username;
+    private $username='';
 
     /**
      * @var string
      */
-    protected $password;
+    private $password='';
 
     /**
      * @var string
      */
-    protected $salt;
+    private $salt='';
 
     /**
-     * This function sets a random id for the user
-     *
-     * Reader constructor.
+     * @param  int $id
      */
-    public function __construct()
+    public function setId($id)
     {
-        //TODO change to generate unique id
-        $this->id = rand(100, 100000);
+        $this->id = $id;
     }
 
     /**
-     * The function returns the id of a reader
-     *
-     * @return int $id
+     * @return int
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @param string $username
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * @param string $password
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+    /**
+     * @param string $salt
+     */
+    public function setSalt($salt)
+    {
+        $this->salt =$salt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSalt()
+    {
+        return $this->salt;
     }
 }
