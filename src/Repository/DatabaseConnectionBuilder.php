@@ -17,13 +17,13 @@ class DatabaseConnectionBuilder
     public function buildConnection()
     {
         try {
-            $database = new PDO(
+            $databaseConnection = new PDO(
                 'mysql:host=127.0.0.1;dbname=BookReviews',
                 'root',
                 ''
             );
 
-            return $database;
+            return $databaseConnection;
         } catch (PDOException $e) {
             echo "Error!: " . $e->getMessage() . "<br/>";
         }

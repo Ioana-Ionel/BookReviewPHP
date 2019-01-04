@@ -13,6 +13,9 @@ use \BookReviews\Api\DataInterface\Http\RequestFactory;
 $request_uri = $_SERVER["REQUEST_URI"];
 $path = parse_url($request_uri, PHP_URL_PATH);
 
+$loader = new Twig_Loader_Filesystem("html/");
+$twig = new Twig_Environment($loader);
+
 session_start();
 
 /**
@@ -75,6 +78,14 @@ switch ($path) {
                 $_SESSION['content'] = $response->getContent();
                 redirect($response->getHeader());
             }
+        }
+        break;
+
+    case '/books':
+        if (empty($_SESSION['user'])) {
+            redirect('/login');
+        } else {
+            render($twig->render('books.html.twig'));
         }
         break;
 

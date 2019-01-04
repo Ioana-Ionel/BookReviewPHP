@@ -15,7 +15,7 @@ class ReaderRepository implements RepositoryInterface
     /**
      * @var PDO
      */
-    private $conn;
+    private $databaseConnection;
 
     /**
      * It sets the connection to the database
@@ -24,7 +24,7 @@ class ReaderRepository implements RepositoryInterface
     public function __construct()
     {
         $database = new DatabaseConnectionBuilder();
-        $this->conn = $database->buildConnection();
+        $this->databaseConnection = $database->buildConnection();
     }
 
     /**
@@ -43,17 +43,17 @@ class ReaderRepository implements RepositoryInterface
      */
     public function add($reader)
     {
-        $stmt = $this->conn->prepare('INSERT INTO readers(username, password, salt) 
+        $query = $this->databaseConnection->prepare('INSERT INTO readers(username, password, salt) 
                                                 VALUES( :username, :password, :salt)');
         $username = $reader->getUsername();
         $password = $reader->getpassword();
         $salt = $reader->getSalt();
-        $stmt->bindValue(':username', $username, PDO::PARAM_STR);
-        $stmt->bindValue(':password', $password, PDO::PARAM_STR);
-        $stmt->bindValue(':salt', $salt, PDO::PARAM_STR);
-        $isSuccessful = $stmt->execute();
+        $query->bindValue(':username', $username, PDO::PARAM_STR);
+        $query->bindValue(':password', $password, PDO::PARAM_STR);
+        $query->bindValue(':salt', $salt, PDO::PARAM_STR);
+        $isSuccessful = $query->execute();
         if (!$isSuccessful) {
-            throw new \PDOException(implode(' ', $stmt->errorInfo()));
+            throw new \PDOException(implode(' ', $query->errorInfo()));
         }
     }
 
@@ -101,10 +101,10 @@ class ReaderRepository implements RepositoryInterface
      */
     public function findInDatabase($username)
     {
-        $stmt= $this->conn->prepare("SELECT * FROM readers WHERE username= :username");
-        $stmt->bindValue(':username', $username, PDO::PARAM_STR);
-        $stmt->execute();
-        $result = $stmt->fetch(PDO::FETCH_BOTH);
+        $query= $this->databaseConnection->prepare("SELECT * FROM readers WHERE username= :username");
+        $query->bindValue(':username', $username, PDO::PARAM_STR);
+        $query->execute();
+        $result = $query->fetch(PDO::FETCH_BOTH);
         if ($result != false) {
             return $this->builtReader(
                 $result['id'],

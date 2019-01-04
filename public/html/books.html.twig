@@ -1,0 +1,34 @@
+{% extends 'templates/base.html.twig' %}
+{% block body %}
+<div class="container">
+    <h1 style="text-align: center"> Books </h1>
+    <p id="id01"></p>
+</div>
+
+
+<script>
+"use strict";
+var xmlhttp = new XMLHttpRequest();
+var url = "books.json";
+
+xmlhttp.open("GET", url, true);
+xmlhttp.onreadystatechange = function() {
+    if (this.readyState === 4 && this.status === 200) {
+        var books = JSON.parse(this.responseText);
+        debugger;
+        myFunction(books);
+    }
+};
+xmlhttp.send();
+
+function myFunction(books) {
+    var output = "";
+    var i;
+    for(i = 0; i < books.length; i++) {
+        output += books[i].title+ '<br>';
+    }
+    document.getElementById("id01").innerHTML = output;
+}
+</script>
+
+{% endblock body %}
