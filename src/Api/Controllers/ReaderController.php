@@ -24,11 +24,10 @@ class ReaderController
         $repository = new ReaderRepository();
         $reader = $repository->findInDatabase($request->getUsername());
         $validator = new ReaderValidator();
-        //TODO condense the code
         try {
             $loader = new Twig_Loader_Filesystem("html/");
             $twig = new Twig_Environment($loader);
-            if ($validator->validatePassword($reader, $request->getPassword())) {
+            if (isset($reader) && $validator->validatePassword($reader, $request->getPassword())) {
                 $content = $twig->render('home.html.twig', ['reader' => $reader]);
                 $response = new Response($content, 202, '/');
 
