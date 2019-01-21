@@ -4,15 +4,15 @@
         <h1 style="text-align: center;">Welcome {{ reader.getUsername() }} </h1>
         <h3 id="quote"></h3>
         <button onclick="showForm()">Add review</button>
-        <form id = "myForm" style = "display: none">
+        <form id = "myForm" style = "display: none" method="post">
                 <label>Book</label>
-                <input type="text" placeholder = "Enter Book" required>
+                <input type="text" placeholder = "Enter Book" name = "book" required>
 
                 <label>Rating</label>
-                <input type="text" placeholder = "Enter rating" required>
+                <input type="text" placeholder = "Enter rating" name = "rating" required>
 
                 <label>Book review</label>
-                <textarea placeholder = "Enter comment" rows="4"></textarea>
+                <textarea placeholder = "Enter comment" rows="4" name = "review"></textarea>
 
                 <button type="submit" style="width: 10%">Submit</button>
         </form>

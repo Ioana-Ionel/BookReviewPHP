@@ -25,7 +25,7 @@ function myFunction(books) {
     var output = "";
     var i;
     for(i = 0; i < books.length; i++) {
-        output += books[i].title+ '<br>';
+        output += '<a href=\'/books?bookId='+ books[i].id + '\'>' + books[i].title + '<br>';
     }
     document.getElementById("id01").innerHTML = output;
 }

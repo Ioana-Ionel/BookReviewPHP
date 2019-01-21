@@ -8,7 +8,8 @@
 
 include "../vendor/autoload.php";
 use BookReviews\Api\Controllers\ReaderController;
-use \BookReviews\Api\DataInterface\Http\RequestFactory;
+use BookReviews\Api\DataInterface\Http\RequestFactory;
+use BookReviews\Api\Controllers\ReviewController;
 
 $request_uri = $_SERVER["REQUEST_URI"];
 $path = parse_url($request_uri, PHP_URL_PATH);
@@ -40,10 +41,17 @@ function render($content)
 
 switch ($path) {
     case '/':
-        if (empty($_SESSION['user'])) {
-            redirect('/login');
-        } else {
-            render($_SESSION['content']);
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            if (empty($_SESSION['user'])) {
+                redirect('/login');
+            } else {
+                render($_SESSION['content']);
+            }
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $factory = new RequestFactory();
+            $request = $factory->create();
+            $controller = new ReviewController();
+            $controller->addReview($request, $_SESSION['user']);
         }
         break;
 
@@ -55,7 +63,7 @@ switch ($path) {
             $request = $factory->create();
             $controller = new ReaderController();
             $response = $controller->login($request);
-            if ($response->getResponseCode() === 202) {
+            if ($response->getResponseCode() === 200) {
                 $_SESSION['user'] = $request->getUsername();
                 $_SESSION['content'] = $response->getCOntent();
                 redirect($response->getHeader());
@@ -73,7 +81,7 @@ switch ($path) {
             $request = $factory->create();
             $controller = new ReaderController();
             $response = $controller->signUp($request);
-            if ($response->getResponseCode() === 202) {
+            if ($response->getResponseCode() === 200) {
                 $_SESSION['user'] = $request->getUsername();
                 $_SESSION['content'] = $response->getContent();
                 redirect($response->getHeader());
@@ -84,10 +92,13 @@ switch ($path) {
     case '/books':
         if (empty($_SESSION['user'])) {
             redirect('/login');
+        } elseif (isset($_GET['bookId'])) {
+            render($twig->render('bookInfo.html.twig'));
         } else {
-            render($twig->render('books.html.twig'));
+            render(($twig->render('books.html.twig')));
         }
         break;
+
 
     case '/logout':
         unset($_SESSION['user']);
