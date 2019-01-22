@@ -22,15 +22,14 @@ class ReaderController
     public function login($request)
     {
         $repository = new ReaderRepository();
-        $reader = $repository->findInDatabase($request->getUsername());
+        $reader = $repository->findReaderInDatabase($request->getUsername());
         $validator = new ReaderValidator();
-        //TODO condense the code
         try {
             $loader = new Twig_Loader_Filesystem("html/");
             $twig = new Twig_Environment($loader);
-            if ($validator->validatePassword($reader, $request->getPassword())) {
+            if (isset($reader) && $validator->validatePassword($reader, $request->getPassword())) {
                 $content = $twig->render('home.html.twig', ['reader' => $reader]);
-                $response = new Response($content, 202, '/');
+                $response = new Response($content, 200, '/');
 
                 return $response;
             } else {
@@ -61,7 +60,7 @@ class ReaderController
                 $twig = new Twig_Environment($loader);
                 if ($reader != null) {
                     $content = $twig->render('home.html.twig', ['reader' => $reader]);
-                    $response = new Response($content, 202, '/');
+                    $response = new Response($content, 200, '/');
 
                     return $response;
                 } else {

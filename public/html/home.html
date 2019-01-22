@@ -9,7 +9,19 @@
 <body>
 <div class='containter' style="background-color:#f1f1f1; text-align: center">
     <h1 style="text-align: center;">Welcome {{ reader }} </h1>
-    <a href="/logout"><button type="button"> Log out </button></a>
+    <a href="/logout"><button class="logoutButton"> Log out </button></a>
+    <form id = "myForm" style = "display: none">
+        <label>Book</label>
+        <input type="text" placeholder = "Enter Book" required>
+
+        <label>Rating</label>
+        <input type="text" placeholder = "Enter rating" required>
+
+        <label >Book review</label>
+        <textarea placeholder = "Enter comment"> </textarea>
+
+        <button type="submit">Submit</button>
+    </form>
 </div>
 </body>
 </html>

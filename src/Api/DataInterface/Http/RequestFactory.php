@@ -10,6 +10,7 @@ namespace BookReviews\Api\DataInterface\Http;
 
 use BookReviews\Api\DataInterface\Http\Request\LogInRequest;
 use BookReviews\Api\DataInterface\Http\Request\SignUpRequest;
+use BookReviews\Api\DataInterface\Http\Request\ReviewRequest;
 
 /**
  * Class RequestFactory
@@ -36,6 +37,13 @@ class RequestFactory
             $password = $_POST["password"];
             $passwordRedo = $_POST['passwordRedo'];
             $request = new SignUpRequest($username, $password, $passwordRedo);
+
+            return $request;
+        } elseif ($path === ReviewRequest::getPath()) {
+            $book = $_POST["book"];
+            $rating = $_POST["rating"];
+            $review = $_POST["review"];
+            $request = new ReviewRequest($book, $rating, $review);
 
             return $request;
         }

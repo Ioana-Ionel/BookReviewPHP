@@ -9,6 +9,7 @@
 namespace BookReviews\Repository;
 
 use \PDO;
+use BookReviews\Entity\Book;
 
 /**
  * Class BookRepository
@@ -19,7 +20,7 @@ class BookRepository implements RepositoryInterface
     /**
      * @var PDO
      */
-    private $connection;
+    private $databaseConnection;
 
     /**
      * It sets the connection to the database
@@ -28,7 +29,49 @@ class BookRepository implements RepositoryInterface
     public function __construct()
     {
         $database = new DatabaseConnectionBuilder();
-        $this->connection = $database->buildConnection();
+        $this->databaseConnection = $database->buildConnection();
+    }
+
+    /**
+     * @param string $bookTitle
+     * @return Book|null
+     */
+    public function findBookInDatabase($bookTitle)
+    {
+        $query= $this->databaseConnection->prepare("SELECT * FROM readers WHERE title= :bookTitle");
+        $query->bindValue(':tile', $bookTitle, PDO::PARAM_STR);
+        $query->execute();
+        $result = $query->fetch(PDO::FETCH_BOTH);
+        if ($result != false) {
+            return $this->builtBook(
+                $result['id'],
+                $result['ISBN'],
+                $result['title'],
+                $result['author'],
+                $result['year']
+            );
+        }
+        return null;
+    }
+
+    /**
+     * @param $id
+     * @param $ISBN
+     * @param $title
+     * @param $author
+     * @param $year
+     * @return Book
+     */
+    public function builtBook($id, $ISBN, $title, $author, $year)
+    {
+        $book = new Book();
+        $book->setId($id);
+        $book->setISBN($ISBN);
+        $book->setTitle($title);
+        $book->setAuthor($author);
+        $book->setYear($year);
+
+        return $book;
     }
 
     /**
@@ -46,16 +89,22 @@ class BookRepository implements RepositoryInterface
      */
     public function add($book)
     {
-        $query = $this->connection->prepare('INSERT INTO books(ISBN, title , author, year)
+        $query = $this->databaseConnection->prepare('INSERT INTO books(ISBN, title , author, year)
                                                       VALUES(:ISBN, :title, :author, :year)');
-
     }
 
+    /**
+     * @param object $object
+     * @return object|void
+     */
     public function update($object)
     {
         // TODO: Implement update() method.
     }
 
+    /**
+     * @param object $object
+     */
     public function delete($object)
     {
         // TODO: Implement delete() method.

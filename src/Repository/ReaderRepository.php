@@ -91,6 +91,7 @@ class ReaderRepository implements RepositoryInterface
         $reader->setUsername($username);
         $reader->setPassword($password);
         $reader->setSalt($salt);
+
         return $reader;
     }
 
@@ -99,7 +100,7 @@ class ReaderRepository implements RepositoryInterface
      * @param string $username
      * @return Reader|null
      */
-    public function findInDatabase($username)
+    public function findReaderInDatabase($username)
     {
         $query= $this->databaseConnection->prepare("SELECT * FROM readers WHERE username= :username");
         $query->bindValue(':username', $username, PDO::PARAM_STR);
@@ -126,7 +127,7 @@ class ReaderRepository implements RepositoryInterface
 
     public function addToDatabase($username, $password)
     {
-        if ($this->findInDatabase($username) == null) {
+        if ($this->findReaderInDatabase($username) == null) {
             $salt = $this->createSalt();
             $security = new ReaderSecurity();
             $hashedPassword = $security->hashPassword($password, $salt);

@@ -1,5 +1,5 @@
-{% extends 'templates/base.html.twig' %}
-{% block body %}
+{% extends 'templates/template.html.twig' %}
+{% block content %}
 <div class="container">
     <h1 style="text-align: center"> Books </h1>
     <p id="id01"></p>
@@ -25,10 +25,10 @@ function myFunction(books) {
     var output = "";
     var i;
     for(i = 0; i < books.length; i++) {
-        output += books[i].title+ '<br>';
+        output += '<a href=\'/books?bookId='+ books[i].id + '\'>' + books[i].title + '<br>';
     }
     document.getElementById("id01").innerHTML = output;
 }
 </script>
 
-{% endblock body %}
+{% endblock content %}

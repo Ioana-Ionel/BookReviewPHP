@@ -1,7 +1,52 @@
-{% extends 'templates/base.html.twig' %}
-{% block body %}
+{% extends 'templates/template.html.twig' %}
+{% block content %}
 <div class='container' style="background-color:#f1f1f1; text-align: center">
         <h1 style="text-align: center;">Welcome {{ reader.getUsername() }} </h1>
-        <a href="/logout"><button type="button"> Log out </button></a>
+        <h3 id="quote"></h3>
+        <button onclick="showForm()">Add review</button>
+        <form id = "myForm" style = "display: none" method="post">
+                <label>Book</label>
+                <input type="text" placeholder = "Enter Book" name = "book" required>
+
+                <label>Rating</label>
+                <input type="text" placeholder = "Enter rating" name = "rating" required>
+
+                <label>Book review</label>
+                <textarea placeholder = "Enter comment" rows="4" name = "review"></textarea>
+
+                <button type="submit" style="width: 10%">Submit</button>
+        </form>
 </div>
-{% endblock body %}
+
+<script>
+var xmlhttp = new XMLHttpRequest();
+var url = "quotes.json";
+
+xmlhttp.open("GET", url, true);
+xmlhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+                var quotes = JSON.parse(this.responseText);
+                debugger;
+                myFunction(quotes);
+        }
+}
+xmlhttp.send();
+
+function myFunction(quotes) {
+        var random = Math.floor(Math.random()*9);
+        var output;
+        output = quotes[random].quote + '<br>' + quotes[random].author;
+        document.getElementById("quote").innerHTML = output;
+}
+
+function showForm() {
+        var x = document.getElementById("myForm");
+        if (x.style.display === "none") {
+                x.style.display = "block";
+        } else {
+                x.style.display = "none";
+        }
+}
+
+</script>
+{% endblock content %}
